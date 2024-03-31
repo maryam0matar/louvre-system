@@ -14,3 +14,77 @@ class ArtworkManagementApp:
 
         self.exit_button = tk.Button(master, text="Exit", command=master.quit)
         self.exit_button.pack()
+
+    def add_artwork(self):
+        add_window = tk.Toplevel(self.master)
+        add_window.title("Add New Artwork")
+
+        title_label = tk.Label(add_window, text="Title:")
+        title_label.pack()
+        self.title_entry = tk.Entry(add_window)
+        self.title_entry.pack()
+
+        artist_label = tk.Label(add_window, text="Artist:")
+        artist_label.pack()
+        self.artist_entry = tk.Entry(add_window)
+        self.artist_entry.pack()
+
+        date_label = tk.Label(add_window, text="Date of Creation:")
+        date_label.pack()
+        self.date_entry = tk.Entry(add_window)
+        self.date_entry.pack()
+
+        significance_label = tk.Label(add_window, text="Historical Significance:")
+        significance_label.pack()
+        self.significance_entry = tk.Entry(add_window)
+        self.significance_entry.pack()
+
+        location_label = tk.Label(add_window, text="Exhibition Location:")
+        location_label.pack()
+        self.location_var = tk.StringVar(add_window)
+        self.location_var.set("Permanent Galleries")  # Default value
+        locations = ["Permanent Galleries", "Exhibition Halls", "Outdoor Spaces"]
+        location_menu = tk.OptionMenu(add_window, self.location_var, *locations)
+        location_menu.pack()
+
+        self.photo_label = tk.Label(add_window, text="Drop Photo Here", bg="lightgray", width=30, height=10)
+        self.photo_label.pack(pady=10)
+
+        self.photo_label.bind("<Enter>", lambda e: self.photo_label.config(bg="lightblue"))
+        self.photo_label.bind("<Leave>", lambda e: self.photo_label.config(bg="lightgray"))
+        self.photo_label.bind("<Button-1>", self.upload_photo)
+
+        save_button = tk.Button(add_window, text="Save", command=self.save_artwork)
+        save_button.pack()
+
+    def upload_photo(self, event):
+        filename = filedialog.askopenfilename(initialdir="/", title="Select Photo", filetypes=(("Image files", "*.jpg *.jpeg *.png *.gif"), ("All files", "*.*")))
+        print("Selected file:", filename)  # You can store this file path for later use
+        if filename:
+            self.photo_label.config(text="Photo Uploaded")
+
+    def save_artwork(self):
+        title = self.title_entry.get()
+        artist = self.artist_entry.get()
+        date = self.date_entry.get()
+        significance = self.significance_entry.get()
+        location = self.location_var.get()
+
+        # Save the artwork information to database or perform necessary actions
+        print("Artwork saved successfully!")
+        print("Title:", title)
+        print("Artist:", artist)
+        print("Date of Creation:", date)
+        print("Historical Significance:", significance)
+        print("Exhibition Location:", location)
+
+    def view_artworks(self):
+        view_window = tk.Toplevel(self.master)
+        view_window.title("View Artworks")
+
+        # Add widgets to view artworks
+
+        # Example: 
+        # artworks_listbox = tk.Listbox(view_window)
+        # artworks_listbox.pack()
+
