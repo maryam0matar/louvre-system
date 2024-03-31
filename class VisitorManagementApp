@@ -1,0 +1,90 @@
+class VisitorManagementApp:
+    def __init__(self, master):
+        self.master = master
+        master.title("Louvre Museum Visitor Management")
+
+        self.label = tk.Label(master, text="Welcome to Louvre Museum Visitor Management System")
+        self.label.pack()
+
+        # Add note about purchasing options
+        self.note_label = tk.Label(master, text="You can purchase tickets online or in-person for various exhibitions, tours, and special events offered by the museum.")
+        self.note_label.pack()
+
+        # Entry fields for visitor information
+        self.name_label = tk.Label(master, text="Name:")
+        self.name_label.pack()
+        self.name_entry = tk.Entry(master)
+        self.name_entry.pack()
+
+        self.age_label = tk.Label(master, text="Age:")
+        self.age_label.pack()
+        self.age_entry = tk.Entry(master)
+        self.age_entry.pack()
+
+        self.email_label = tk.Label(master, text="Email:")
+        self.email_label.pack()
+        self.email_entry = tk.Entry(master)
+        self.email_entry.pack()
+
+        # Dropdown menu for ticket type and individual/group selection
+        self.ticket_type_label = tk.Label(master, text="Select Ticket Type:")
+        self.ticket_type_label.pack()
+        self.ticket_type_var = tk.StringVar(master)
+        self.ticket_type_var.set("Exhibition - Individual")  # Default value
+        ticket_types = ["Exhibition - Individual", "Exhibition - Group", "Tour - Individual", "Tour - Group", "Special Event"]
+        ticket_type_menu = tk.OptionMenu(master, self.ticket_type_var, *ticket_types)
+        ticket_type_menu.pack()
+
+        self.calculate_button = tk.Button(master, text="Calculate Price", command=self.calculate_price)
+        self.calculate_button.pack()
+
+        self.price_label = tk.Label(master, text="")
+        self.price_label.pack()
+
+    def calculate_price(self):
+        name = self.name_entry.get()
+        age = int(self.age_entry.get())
+        email = self.email_entry.get()
+        ticket_type = self.ticket_type_var.get()
+
+        ticket_price, ticket_info = self.calculate_ticket_price(age, ticket_type)
+
+        if ticket_price is not None:
+            self.price_label.config(text=f"Hello {name}, your ticket price is {ticket_price} AED.\n"
+                                          f"An invoice has been sent to {email}.\n"
+                                          f"Ticket Details:\n{ticket_info}")
+        else:
+            self.price_label.config(text="Invalid age entered.")
+
+    def calculate_ticket_price(self, age, ticket_type):
+        if 18 <= age <= 60:
+            base_price = 63
+        elif age < 18 or age >= 60:
+            base_price = 0  # Free ticket for children, seniors
+        else:
+            return None, None  # Invalid age
+
+        if "Group" in ticket_type:
+            base_price *= 0.5  # 50% discount for groups
+
+        ticket_price = base_price * 1.05  # Add 5% VAT
+
+        # Provide ticket information based on ticket type
+        if "Exhibition" in ticket_type:
+            ticket_info = "Exhibition Ticket:\nDuration: 3 hours\nLocation: Permanent Galleries\nDate: May 1, 2024\nTime: 10:00 AM"
+        elif "Tour" in ticket_type:
+            ticket_info = "Tour Ticket:\nDate: June 15, 2024\nTime: 2:00 PM\nGroup Size: 25\nGuide: John Doe"
+        elif ticket_type == "Special Event":
+            ticket_info = "Special Event Ticket:\nDuration: 2 hours\nLocation: Outdoor Spaces\nDate: July 20, 2024\nTime: 7:30 PM\nEvent: Musical Concert"
+        else:
+            ticket_info = "Ticket information not available."
+
+        return ticket_price, ticket_info
+
+    def purchase_ticket(self):
+        # Method to purchase ticket
+        pass
+
+root = tk.Tk()
+app = LouvreManagementApp(root)
+root.mainloop()
