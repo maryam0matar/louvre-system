@@ -1,0 +1,30 @@
+import tkinter as tk
+from tkinter import filedialog
+
+class LouvreManagementApp:
+    def __init__(self, master):
+        self.master = master
+        master.title("Louvre Museum Management System")
+
+        self.label = tk.Label(master, text="Welcome to Louvre Museum Management System")
+        self.label.pack()
+
+        self.artwork_button = tk.Button(master, text="Artwork Management", command=self.open_artwork_management)
+        self.artwork_button.pack()
+
+        self.ticket_button = tk.Button(master, text="Visitor Management", command=self.open_visitor_management)
+        self.ticket_button.pack()
+
+        self.exit_button = tk.Button(master, text="Exit", command=master.quit)
+        self.exit_button.pack()
+
+    def open_artwork_management(self):
+        artwork_window = tk.Toplevel(self.master)
+        artwork_window.title("Artwork Management")
+        artwork_app = ArtworkManagementApp(artwork_window)
+
+    def open_visitor_management(self):
+        visitor_window = tk.Toplevel(self.master)
+        visitor_window.title("Visitor Management")
+        visitor_app = VisitorManagementApp(visitor_window)
+        visitor_app.purchase_ticket()
