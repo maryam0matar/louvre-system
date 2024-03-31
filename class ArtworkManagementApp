@@ -1,0 +1,16 @@
+class ArtworkManagementApp:
+    def __init__(self, master):
+        self.master = master
+        master.title("Louvre Museum Artwork Management")
+
+        self.label = tk.Label(master, text="Welcome to Louvre Museum Artwork Management System")
+        self.label.pack()
+
+        self.add_artwork_button = tk.Button(master, text="Add New Artwork", command=self.add_artwork)
+        self.add_artwork_button.pack()
+
+        self.view_artworks_button = tk.Button(master, text="View Artworks", command=self.view_artworks)
+        self.view_artworks_button.pack()
+
+        self.exit_button = tk.Button(master, text="Exit", command=master.quit)
+        self.exit_button.pack()
